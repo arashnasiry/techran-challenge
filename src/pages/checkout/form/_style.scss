@@ -1,0 +1,45 @@
+//form 
+@mixin input($bkgnd: #F5F5F5){
+  width: 100%;
+  border: 0;
+  margin: 6px 0 6px;
+  padding: 10px;
+  outline: 0;
+  font-size: 15px;
+  box-sizing: border-box;
+  background: $bkgnd;
+}
+
+
+.form{
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 45px;
+  background: #c1cdd9;
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.form {
+  input[type='text'],input[type='date'],select,textarea{
+    @include input; 
+    
+    ::placeholder {
+      color: #90A4AE;
+    }
+  }
+
+  > div {
+    margin-bottom: 20px;
+    margin-left:1%;
+    float: left;
+    height: 80px;
+    width:48%;
+  }
+
+  .message {
+    color:#e74c3c;
+  }
+
+}

@@ -2,6 +2,7 @@ import React from 'react'
 import FormControl from './FormControl'
 import checkoutFormModel from '../../../constant/formmodel/checkoutFormModel'
 import formFiledOptions from '../../../constant/formmodel/formFiledOptions'
+import './_style.scss'
 
 const { fieldoptions } = formFiledOptions
 function CheckoutForm({ disabled }) {
