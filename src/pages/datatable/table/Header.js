@@ -9,6 +9,7 @@ function Header() {
         for (let item in formField) {
             headers.push([formField[item].name])
         }
+        headers.push('Actions')
         return headers
     }, [formField])
 
