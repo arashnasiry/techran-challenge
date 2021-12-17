@@ -3,6 +3,8 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './redux/store'
 import CheckoutPage from './pages/checkout'
+import Tableshow from './pages/datatable'
+import './App.scss'
 
 function App() {
   return (
@@ -10,6 +12,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/' component={CheckoutPage} />
+          <Route exact path='/show' component={Tableshow} />
         </Switch>
       </Router>
     </Provider >

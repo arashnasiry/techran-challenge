@@ -1,35 +1,60 @@
-import React from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { connect } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 import formInitialValues from '../../constant/formmodel/formInitialValues'
 import validationSchema from '../../constant/formmodel/validationSchema'
-import { useradd } from '../../redux/user/actions/userActions'
+import { useradd, editUser } from '../../redux/user/actions/userActions'
 import CheckoutForm from './form'
 
 
 function CheckoutPage({ state, useradd, editUser }) {
     const history = useHistory()
+    const location = useLocation()
+    const getLocationData = useCallback(() => {
+        if (location.state) {
+            const { userId, targetPage } = location.state
+            return { userId, targetPage }
+        } else {
+
+            return { isFillForm: false }
+        }
+    }, [location])
+
+    const { userId = -1, targetPage = '', isFillForm = true } = getLocationData()
+    const page = isFillForm && targetPage
+
+    const initialState = useMemo(() => {
+        if (isFillForm) {
+            return (state.userData.filter((item) => item.id === userId)[0])
+        }
+    }, [])
 
     function handleSubmit(values) {
-        useradd(values)
+        page === 'edit'
+            ? editUser(values)
+            : useradd(values)
+
         history.push('\show')
     }
 
     return (
         <div>
             <Formik
-                initialValues={formInitialValues}
+                initialValues={isFillForm ? initialState : formInitialValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
                 <Form className='form'>
-                    <CheckoutForm />
-                    <div >
-                        <button type='submit' >
-                            Submit
+                    <CheckoutForm disabled={page === 'view' ? true : false} />
+                    <div className='btn-form'>
+                        <button type='submit' className={`btn ${targetPage !== 'view' ? "btn-blue" : ''}`} disabled={page === 'view'}>
+                            {page === 'edit'
+                                ? 'Edit'
+                                : 'Submite'
+                            }
                         </button>
-                        <button >Cancel</button>
+                        <button onClick={() => history.push('/show')} className='btn btn-yellow'>Cancel</button>
                     </div>
                 </Form>
             </Formik>
@@ -37,4 +62,4 @@ function CheckoutPage({ state, useradd, editUser }) {
     )
 }
 
-export default connect((state) => ({ state: state.user }), { useradd })(CheckoutPage)
+export default connect((state) => ({ state: state.user }), { useradd, editUser })(CheckoutPage)
