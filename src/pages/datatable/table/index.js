@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { deleteUser } from '../../../redux/user/actions/userActions'
 import Header from './Header'
 import Items from './Items'
+import './_style.scss'
 
 function DataTable({ state, deleteUser }) {
     const data = state.flag === 'filter' ? state.userFilterd : state.userData

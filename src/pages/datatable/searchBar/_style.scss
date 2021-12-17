@@ -1,0 +1,17 @@
+//searchbar
+.search {
+  width: 20%;
+  margin:1rem 0.5rem;
+  float:left;
+  .searchTerm {
+    border: 3px solid #00B4CC;
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
+    color: #9DBFAF;
+    width:80%;
+    &:focus{
+    color: #00B4CC;
+    }
+  }
+}

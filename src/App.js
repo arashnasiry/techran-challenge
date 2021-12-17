@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import store from './redux/store'
 import CheckoutPage from './pages/checkout'
 import Tableshow from './pages/datatable'
+import './App.scss'
 
 function App() {
   return (

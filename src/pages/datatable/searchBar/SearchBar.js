@@ -2,6 +2,7 @@ import { React, useState } from 'react'
 import { connect } from 'react-redux'
 import formFiledOptions from '../../../constant/formmodel/formFiledOptions'
 import { searchUser, wrokTypeFilter } from '../../../redux/user/actions/userActions'
+import './_style.scss'
 
 const { fieldoptions: { workTypeCheckBox: workType } } = formFiledOptions
 
