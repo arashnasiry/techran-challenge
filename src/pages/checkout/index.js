@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo, useCallback, useState,useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 import { Formik, Form } from 'formik'
@@ -7,41 +7,41 @@ import validationSchema from '../../constant/formmodel/validationSchema'
 import { useradd, editUser } from '../../redux/user/actions/userActions'
 import CheckoutForm from './form'
 
-
 function CheckoutPage({ state, useradd, editUser }) {
+    
     const history = useHistory()
     const location = useLocation()
-    const getLocationData = useCallback(() => {
+    const [userId,setUserId]=useState('')
+    const [targetPage,setTargetPage]=useState('')
+    const [isFillForm,setIsFillForm]=useState(false)
+    const [initialState,setinitialState]=useState(formInitialValues)
+
+    useEffect(() => {
         if (location.state) {
-            const { userId, targetPage } = location.state
-            return { userId, targetPage }
-        } else {
+            setUserId(location.state.userId)
+            setTargetPage(location.state.targetPage)
+            setIsFillForm(true)
+            const passedInitialValue=state.userData.filter((item) => item.id === location.state.userId)[0]
+            setinitialState({...passedInitialValue })
+        } 
+    }, [location]);
 
-            return { isFillForm: false }
-        }
-    }, [location])
+   const page = isFillForm && targetPage
 
-    const { userId = -1, targetPage = '', isFillForm = true } = getLocationData()
-    const page = isFillForm && targetPage
-
-    const initialState = useMemo(() => {
-        if (isFillForm) {
-            return (state.userData.filter((item) => item.id === userId)[0])
-        }
-    }, [])
-
-    function handleSubmit(values) {
+     function handleSubmit(values) {
         page === 'edit'
-            ? editUser(values)
-            : useradd(values)
-
+        ? editUser(values)
+        : useradd(values)
+        
         history.push('\show')
     }
-
+    
     return (
         <div>
+         
             <Formik
-                initialValues={isFillForm ? initialState : formInitialValues}
+                enableReinitialize
+                initialValues={initialState}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
